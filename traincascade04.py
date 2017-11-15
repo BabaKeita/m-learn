@@ -4,7 +4,7 @@ import cv2
 import sys
 
 # 自作Haar-like特徴分類器の読み込み
-face_cascade = cv2.CascadeClassifier('./traincascade/cascade/ooo/cas/cascade06_HAAR.xml')
+face_cascade = cv2.CascadeClassifier('./traincascade/cascade/ooo/cas/cascade07_LBPALL1.xml')
 
 # イメージファイルの読み込み
 #img = cv2.imread('./img/signs02.jpg')
@@ -20,10 +20,12 @@ def function(frame):
     # グレースケール変換
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     # 検知
-    faces = face_cascade.detectMultiScale(gray, 1.01)#1.21
+    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.01,minSize=(35,35),maxSize=(75,75))#1.21
+#    faces = face_cascade.detectMultiScale(gray,1.01)
     for (x,y,w,h) in faces:
         # 検知した顔を矩形で囲む
         cv2.rectangle(frame,(x,y),(x+w,y+h),(255,0,0),2)
+#        print(x,y,w,h)
         # 顔画像（グレースケール）
         roi_gray = gray[y:y+h, x:x+w]
         # 顔画像（カラースケール）
